@@ -19,20 +19,29 @@ app.get('/', async function(req,res) {
    
         console.log(_productName)
         
-var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"))
+var web3 = new Web3(new Web3.providers.HttpProvider("https://7f254653.ngrok.io"))
+//var web3 = new Web3(new Web3.providers.HttpProvider("https://8a662599.ngrok.io"))
 
 var eth = web3.eth;
 web3.eth.defaultAccount = "0x5c9634c6ec14e7Ff8B9905c93bfCE942144469Db"
 
-abi = [ { "constant": false, "inputs": [ { "name": "_productname", "type": "string" }, { "name": "_productId", "type": "string" }, { "name": "_productionDate", "type": "string" }, { "name": "_temp", "type": "int256" }, { "name": "_humidity", "type": "int256" } ], "name": "setProduct", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "getProduct", "outputs": [ { "name": "", "type": "string" }, { "name": "", "type": "string" }, { "name": "", "type": "string" }, { "name": "", "type": "int256" }, { "name": "", "type": "int256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor" } ]
+//abi = [ { "constant": false, "inputs": [ { "name": "_productname", "type": "string" }, { "name": "_productId", "type": "string" }, { "name": "_productionDate", "type": "string" }, { "name": "_temp", "type": "int256" }, { "name": "_humidity", "type": "int256" } ], "name": "setProduct", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "getProduct", "outputs": [ { "name": "", "type": "string" }, { "name": "", "type": "string" }, { "name": "", "type": "string" }, { "name": "", "type": "int256" }, { "name": "", "type": "int256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor" } ]
 
+abi = [ { "constant": false, "inputs": [ { "name": "_productname", "type": "string" }, { "name": "_productId", "type": "string" }, { "name": "_productionDate", "type": "string" }, { "name": "_temp", "type": "int256" }, { "name": "_humidity", "type": "int256" } ], "name": "setProduct", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "constant": true, "inputs": [], "name": "getProduct", "outputs": [ { "name": "", "type": "string" }, { "name": "", "type": "string" }, { "name": "", "type": "string" }, { "name": "", "type": "int256" }, { "name": "", "type": "int256" } ], "payable": false, "stateMutability": "view", "type": "function" } ]
 
+try {
 var SupplyChainContract = web3.eth.contract(abi)
-var instanceSupplyChainContract = SupplyChainContract.at("0x301a6dAC224006Aa11687BC889182FBEcD0D30E4")
+var instanceSupplyChainContract = SupplyChainContract.at("0xe23fBebDa2989bBc93FAA8ef4380b70fad21759E")
+//0xe23fBebDa2989bBc93FAA8ef4380b70fad21759E
 
 
 //write data to blockchain
 var setData = instanceSupplyChainContract.setProduct(_productName, _productID, _productionDate,_temp, _humidity)
+} catch (error) {
+    res.status(500).json({ error: error.toString() });
+
+}
+res.json({ok:true})
 
       });
 
